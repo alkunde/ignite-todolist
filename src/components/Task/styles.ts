@@ -16,7 +16,13 @@ export const styles = StyleSheet.create({
   textDescription: {
     flex: 1,
     fontSize: 14,
-    color: '#F2F2F2',
     marginHorizontal: 8,
-  }
+  },
+  textChecked: {
+    color: '#808080',
+    textDecorationLine: 'line-through',
+  },
+  textUnchecked: {
+    color: '#F2F2F2',
+  },
 })

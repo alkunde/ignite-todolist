@@ -2,33 +2,38 @@ import { FlatList, View } from 'react-native';
 
 import Info from '../Info';
 import Empty from '../Empty';
-import Task from '../Task';
+import Task, { TaskProps } from '../Task';
 
 import { styles } from './styles';
-
-type TaskProps = {
-  description: string;
-  isDone: boolean;
-}
+import { useMemo } from 'react';
 
 type Props = {
   tasks: TaskProps[];
+  onRemove: (selected: number) => void;
+  onCheck: (selected: number) => void;
 }
 
-export default function Tasks({ tasks }: Props) {
+export default function Tasks({ tasks, onRemove, onCheck }: Props) {
+  const created = useMemo(() => {
+    return tasks.length;
+  }, [tasks]);
+
+  const done = useMemo(() => {
+    return tasks.filter(task => task.checked).length;
+  }, [tasks]);
+
   return (
     <View style={styles.container}>
 
-      <Info created={0} ended={0} />
+      <Info created={created} ended={done} />
 
       <FlatList
         data={tasks}
         renderItem={({ item }) => (
           <Task
-            checked={item.isDone}
-            description={item.description}
-            onCheck={() => {}}
-            onRemove={() => {}}
+            task={item}
+            onCheck={() => onCheck(item.id)}
+            onRemove={() => onRemove(item.id)}
           />
         )}
         showsVerticalScrollIndicator={false}
